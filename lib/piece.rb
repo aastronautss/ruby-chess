@@ -1,10 +1,11 @@
 module Chess
   class Piece
-    attr_reader :color, :type
+    attr_reader :color, :type, :symbol
 
-    def initialize(color = nil, type = nil)
+    def initialize(color = nil, type = nil, symbol = nil)
       @color = color
       @type = type
+      @symbol = symbol
     end
   end
 end

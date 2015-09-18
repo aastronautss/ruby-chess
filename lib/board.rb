@@ -7,6 +7,9 @@ module Chess
       randomize_players(prompt_players)
     end
 
+
+    private
+
     def prompt_players
       players = []
       puts "PLAYER 1: What is your name?"
