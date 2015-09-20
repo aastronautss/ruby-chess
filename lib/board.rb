@@ -8,6 +8,7 @@ module Chess
       randomize_players(prompt_players)
     end
 
+    # Announces who is playing what color, and alternates turns until someone wins. Returns the name of the winner.
     def play
       puts "#{@white_player.name} plays white."
       puts "#{@black_player.name} plays black."
@@ -24,7 +25,7 @@ module Chess
       end
 
       display_board
-      puts "#{winner} wins!"
+      "#{winner} wins!"
     end
 
     def set_board
@@ -34,6 +35,18 @@ module Chess
     end
 
     def checkmate
+    end
+
+    def piece_at(coords)
+      coord_ary = self.parse_coords(coords.upcase)
+      @grid[coord_ary[0]][coord_ary[1]]
+    end
+
+    def self.parse_coords(coords)
+      ary = coords.split("")
+      ary[0] = ary[0].ord - 65
+      ary[1] = ary[1] - 1
+      ary
     end
 
     private
