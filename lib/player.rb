@@ -7,5 +7,8 @@ module Chess
       @color = color
       @captured_pieces = []
     end
+
+    def prompt_move(board)
+    end
   end
 end

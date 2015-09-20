@@ -1,4 +1,6 @@
 module Chess
+  # Main class for Chess module. Keeps track of all positions, and controls
+  # whose turn it is.
   class Board
     attr_accessor :grid, :white_player, :black_player
 
@@ -8,7 +10,8 @@ module Chess
       randomize_players(prompt_players)
     end
 
-    # Announces who is playing what color, and alternates turns until someone wins. Returns the name of the winner.
+    # Announces who is playing what color, and alternates turns until someone
+    # wins. Returns the name of the winner.
     def play
       puts "#{@white_player.name} plays white."
       puts "#{@black_player.name} plays black."
