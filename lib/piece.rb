@@ -5,10 +5,10 @@ module Chess
     attr_accessor :color, :type, :character
 
     # Can take a custom piece for future variations?
-    def initialize(color = nil, type = nil, character = nil)
+    def initialize(color = nil)
       @color = color
-      @type = type
-      @character = character
+      @type = nil
+      @character = nil
     end
 
     # Returns the piece's type (stored as a symbol) as a capitalized string.

@@ -30,7 +30,7 @@ module Chess
         right_diag_piece = board.piece_at_indices(right_diag)
 
         moves << [x, y - 1]
-        moves << [x, y - 2] if y == 6
+        moves << [x, y - 2] if y == board.grid[0].length - 2
         moves << left_diag if left_diag_piece.color == :black
         moves << right_diag if right_diag_piece.color == :black
       else
