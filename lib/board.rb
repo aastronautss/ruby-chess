@@ -52,6 +52,10 @@ module Chess
       @grid[x][y]
     end
 
+    def piece_at_indices(indices)
+      @grid[indices[0]][indices[1]]
+    end
+
     # Returns the array indices corresponding to the coordinate (given by e.g.
     # "E4")
     def self.parse_coords(coords)

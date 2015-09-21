@@ -19,13 +19,14 @@ module Chess
         break if valid?
       end
 
-      execute_move(board)
+      execute(board)
     end
 
     # Returns true if it is valid. If it is invalid, the helper messages store
     # a message to be displayed by the prompter.
     def valid?
       return false unless correct_format?
+      return false unless correct_owner?(board)
       return false unless space_open?(board)
       return false unless valid_move_for_piece?(board)
       return false if king_is_checked?(board)
@@ -35,12 +36,29 @@ module Chess
 
     private
 
+    def execute(board)
+    end
+
     # Returns true if the application can read the format of the move given
     # by the player. It should be an array with the "from" as index 0 and "to"
     # as index 1, and have the standard chessboard coordinates, e.g. "A2".
     def correct_format?
       unless @move.length == 2 && @move.all? { |s| s =~ /[A-H][1-8]/ }
         @message = "Invalid format!"
+        return false
+      end
+      true
+    end
+
+    def correct_owner?(board)
+      moving_piece = board.piece_at(@move[0])
+
+      unless moving_piece.color == player.color
+        if moving_piece.color == opponent.color
+          @message = "You can't move your opponent's pieces!"
+        else
+          @message = "There is no piece there!"
+        end
         return false
       end
       true
@@ -65,7 +83,7 @@ module Chess
     # space.
     def valid_move_for_piece?(board)
       moving_piece = board.piece_at(@move[1])
-      unless moving_piece.possible_moves(@from).include?(@to)
+      unless moving_piece.possible_moves(self, board).include?(@to)
         @message = "A #{moving_piece.name} can't move that way!"
         return false
       end

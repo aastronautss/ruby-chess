@@ -15,5 +15,8 @@ module Chess
     def name
       return @type.to_s.capitalize
     end
+
+    def possible_moves(move, board)
+    end
   end
 end
