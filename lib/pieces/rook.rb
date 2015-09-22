@@ -13,20 +13,20 @@ module Chess
       x, y = move.from
 
       (x + 1).upto(grid.length) do |i|
+        break if grid[i][y].color == @color
         moves << [i, y]
-        break unless grid[i][y].type.nil?
       end
       (x - 1).downto(0) do |i|
+        break if grid[i][y].color == @color
         moves << [i, y]
-        break unless grid[i][y].type.nil?
       end
       (y + 1).upto(grid[0].length) do |i|
+        break if grid[x][i].color == @color
         moves << [x, i]
-        break unless grid[x][i].type.nil?
       end
       (y - 1).downto(0) do |i|
+        break if grid[x][i].color == @color
         moves << [x, i]
-        break unless grid[x][i].type.nil?
       end
 
       moves

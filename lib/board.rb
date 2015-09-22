@@ -130,6 +130,10 @@ module Chess
       attacking_pieces.map { |piece| piece.possible_moves }
     end
 
+    def king_in_check?(color)
+
+    end
+
     private
 
     # For initialization: returns an array of all the players in the game.
@@ -150,6 +154,10 @@ module Chess
       @white_player.color = :white
       @black_player = players.pop
       @black_player.color = :black
+    end
+
+    def opposite_color(color)
+      color == :white ? :black : :white
     end
   end
 end

@@ -29,7 +29,7 @@ module Chess
       return false unless correct_owner?(board)
       return false unless space_open?(board)
       return false unless valid_move_for_piece?(board)
-      return false if king_is_checked?(board)
+      return false if board.king_in_check?(@player.color)
       @message = nil
       true
     end
@@ -88,10 +88,6 @@ module Chess
         return false
       end
       true
-    end
-
-    # Returns true if the player's king is checked.
-    def king_is_checked?(board)
     end
   end
 end

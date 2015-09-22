@@ -12,14 +12,18 @@ module Chess
       grid = board.grid
       x, y = move.from
 
-      moves << [x + 1, y]
-      moves << [x + 1, y + 1]
-      moves << [x, y + 1]
-      moves << [x - 1, y + 1]
-      moves << [x - 1, y]
-      moves << [x - 1, y - 1]
-      moves << [x, y - 1]
-      moves << [x + 1, y - 1]
+      possible_moves = [[x + 1, y],
+                        [x + 1, y + 1],
+                        [x, y + 1],
+                        [x - 1, y + 1],
+                        [x - 1, y],
+                        [x - 1, y - 1],
+                        [x, y - 1],
+                        [x + 1, y - 1]]
+
+      possible_moves.each do |move|
+        moves << move if grid[x][y].type.nil? && !board.space_attacked?(move, color)
+      end
 
       moves
     end

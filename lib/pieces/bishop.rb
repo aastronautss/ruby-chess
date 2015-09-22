@@ -19,15 +19,15 @@ module Chess
 
       # Diagonally to the right of the piece
       (x + 1).upto(grid.length) do |i|
+        break if grid[i][y_step_up].color == @color
         y_step_up += 1
         moves << [i, y_step_up] unless y_step_up >= grid[0].length
-        break unless grid[i][y_step_up].type.nil?
       end
 
       (x + 1).upto(grid.length) do |i|
+        break if grid[i][y_step_dn].color == @color
         y_step_dn -= 1
         moves << [i, y_step_dn] unless y_step_dn < 0
-        break unless grid[i][y_step_dn].type.nil?
       end
 
       # Reset auxiliary variables
@@ -36,15 +36,15 @@ module Chess
 
       # Diagonally to the left of the piece
       (x - 1).downto(grid.length) do |i|
+        break if grid[i][y_step_up].color == @color
         y_step_up += 1
         moves << [i, y_step_up] unless y_step_up >= grid[0].length
-        break unless grid[i][y_step_up].type.nil?
       end
 
       (x - 1).downto(grid.length) do |i|
+        break if grid[i][y_step_dn].color == @color
         y_step_dn -= 1
         moves << [i, y_step_dn] unless y_step_dn < 0
-        break unless grid[i][y_step_dn].type.nil?
       end
 
       moves
