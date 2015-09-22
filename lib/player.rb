@@ -8,7 +8,6 @@ module Chess
       @name = name
       @color = color
       @captured_pieces = []
-      @turn_count = 0
     end
 
     def prompt_move(board)

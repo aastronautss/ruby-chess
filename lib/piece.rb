@@ -18,5 +18,13 @@ module Chess
 
     def possible_moves(move, board)
     end
+
+    def empty?
+      type.nil?
+    end
+
+    def opposite_color
+      @color == white ? :black : :white
+    end
   end
 end

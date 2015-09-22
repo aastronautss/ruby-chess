@@ -3,8 +3,8 @@ module Chess
     def initialize(color = nil)
       @color = color
       @type = :pawn
-      @character = ♙ if @color == :white
-      @character = ♟ if @color == :black
+      @character = "\u2659" if @color == :white
+      @character = "\u265F" if @color == :black
     end
 
     def possible_moves(move, board)
@@ -12,31 +12,28 @@ module Chess
       coords = move.move[0]
       moves = []
 
-      case @color
-      when :white
-        left_diag = [x - 1, y + 1]
-        left_diag_piece = board.piece_at_indices(left_diag)
-        right_diag = [x + 1, y + 1]
-        right_diag_piece = board.piece_at_indices(right_diag)
+      one_space_forward = @color == :white ? [x, y + 1] : [x, y - 1]
+      two_spaces_forward = @color == :white ? [x, y + 2] : [x, y - 2]
+      diags = @color == :white ? [[x - 1, y + 1], [x + 1, y + 1]] : [[x - 1, y - 1], [x + 1, y - 1]]
 
-        moves << [x, y + 1]
-        moves << [x, y + 2] if y == 1
-        moves << left_diag if left_diag_piece.color == :black
-        moves << right_diag if right_diag_piece.color == :black
-      when :black
-        left_diag = [x - 1, y - 1]
-        left_diag_piece = board.piece_at_indices(left_diag)
-        right_diag = [x + 1, y - 1]
-        right_diag_piece = board.piece_at_indices(right_diag)
+      # Forward advance
+      if board.piece_at_indices(one_space_forward).empty?
+        moves << one_space_forward
+        if board.piece_at_indices(two_spaces_forward).empty? && starting_position?(y)
+          moves << two_spaces_forward
+        end
+      end
 
-        moves << [x, y - 1]
-        moves << [x, y - 2] if y == board.grid[0].length - 2
-        moves << left_diag if left_diag_piece.color == :black
-        moves << right_diag if right_diag_piece.color == :black
-      else
+      diags.each do |diag|
+        space = board.piece_at_indices(diag)
+        moves << diag if space.color == opposite_color
       end
 
       moves
+    end
+
+    def starting_position?(y)
+      @color == :white ? y == 1 : y == 6
     end
   end
 end
