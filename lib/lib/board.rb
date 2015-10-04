@@ -2,22 +2,17 @@ module Chess
   # Main class for Chess module. Keeps track of all positions, and controls
   # whose turn it is.
   class Board
-    attr_accessor :grid, :white_player, :black_player, :white_king, :black_king
+    attr_accessor :spaces, :white_player, :black_player, :white_king, :black_king
 
     # Creates a grid which, by default, is full of empty pieces and calls
     # set_board to fill it up with the standard positions. Prompts the players
     # and decides who plays black and who plays white.
     def initialize()
-      @grid = Array.new(8, Array.new(8))
-
-      @grid.each_with_index do |col, x|
-        col.map!.with_index do |row, y|
-          Space.new([x, y])
-        end
+      @spaces = Array.new(64).map.with_index do |col, i|
+        Space.new(index_to_coords(i))
       end
 
       set_board
-      puts "Welcome to chess!"
       randomize_players(prompt_players)
     end
 
@@ -44,41 +39,6 @@ module Chess
 
     # Sets up board with new Piece objects.
     def set_board
-      # Fill blank space between starting rows.
-      2.upto(5) do |row|
-        0.upto(7) { |col| @grid[col][row] = Piece.new }
-      end
-
-      # White pawn row
-      0.upto(7) { |col| @grid[col][1] = Pawn.new(:white) }
-
-      # Black pawn row
-      0.upto(7) { |col| @grid[col][6] = Pawn.new(:black) }
-
-      # White back row
-      @grid[0][0].piece = Rook.new(:white)
-      @grid[0][1].piece = Knight.new(:white)
-      @grid[0][2].piece = Bishop.new(:white)
-      @grid[0][3].piece = Queen.new(:white)
-      @grid[0][5].piece = Bishop.new(:white)
-      @grid[0][6].piece = Knight.new(:white)
-      @grid[0][7].piece = Rook.new(:white)
-
-      # Black back row
-      @grid[7][0].piece = Rook.new(:black)
-      @grid[7][1].piece = Knight.new(:black)
-      @grid[7][2].piece = Bishop.new(:black)
-      @grid[7][3].piece = Queen.new(:black)
-      @grid[7][5].piece = Bishop.new(:black)
-      @grid[7][6].piece = Knight.new(:black)
-      @grid[7][7].piece = Rook.new(:black)
-
-      # Setup kings
-      @white_king = King.new(:white)
-      @grid[0][4].piece = @white_king
-
-      @black_king = King.new(:black)
-      @grid[7][4].piece = @black_king
     end
 
     # Prints the board to the console, as well as the players' captured pieces.
@@ -91,45 +51,26 @@ module Chess
 
     # Returns the piece at the coordinate, given as a string. E.g. "C5"
     def piece_at(coords)
-      x, y = self.parse_coords(coords)
-      @grid[x][y].piece
+      space = @spaces.find { |space| space.coords == coords }
+      space.piece
     end
 
-    # Returns the piece at the given indices (in array format)
-    def piece_at_indices(indices)
-      @grid[indices[0]][indices[1]].piece
-    end
-
-    # Returns the array indices corresponding to the coordinate (given by e.g.
-    # "E4")
-    def self.parse_coords(coords)
-      ary = coords.split("")
-      ary[0] = ary[0].ord - 65
-      ary[1] = ary[1] - 1
-      ary
+    def space_at(coords)
+      @spaces[coords_to_index(coords)]
     end
 
     # Returns true if the given space (can be indices or coords) is attacked by
     # any pieces of the color opposite the given color.
-    def space_attacked?(indices, color_of_defender)
-      indices = (indices.is_a?(String) ? self.parse_coords(indices) : indices)
-      x = indices[0]
-      y = indices[1]
+    def space_attacked?(coords, color_of_defender)
+      x = coords.x
+      y = coords.y
 
       color_of_attacker = opposite_color(color_of_defender)
       spaces_attacked_by(color_of_attacker).include?(indices)
     end
 
     def pieces_in_play(color)
-      pieces = []
-
-      # TODO: change this to use Array#select function.
-      @grid.each do |col|
-        @grid[col].each do |row|
-          piece = @grid[col][row].piece
-          pieces << piece if piece.color == color
-        end
-      end
+      @spaces.select { |space| space.piece }
     end
 
     def spaces_attacked_by(color)
@@ -142,6 +83,16 @@ module Chess
     end
 
     private
+
+    def index_to_coords(index)
+      x = index % 8
+      y = index / 8 / 1 # SublimeText thinks this is a regex. Silly SublimeText.
+      Coords.new(x, y)
+    end
+
+    def coords_to_index(coords)
+      coords.y * 8 + coords.x
+    end
 
     # For initialization: returns an array of all the players in the game.
     # TODO: Ask for human or computer once AI is implemented.

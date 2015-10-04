@@ -7,6 +7,15 @@ module Chess
       @y = y
     end
 
+    def self.parse_notation(str)
+      str.upcase!
+      if str =~ /[A-F][1-8]/
+        return Coords.new(a[0].ord - 65, a[1].to_i)
+      else
+        raise "Invalid space format: \"#{str}\" !"
+      end
+    end
+
     def increment_x(n = 1)
       Coords.new(x + n, y)
     end

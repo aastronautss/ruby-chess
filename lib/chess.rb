@@ -5,5 +5,6 @@ require './lib/human-player.rb'
 require './lib/pieces.rb'
 require './lib/move.rb'
 require './lib/space.rb'
+require './lib/coords.rb'
 
 the_board = Chess::Board.new
