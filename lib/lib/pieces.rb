@@ -1,6 +1,0 @@
-require './lib/pieces/pawn'
-require './lib/pieces/rook'
-require './lib/pieces/bishop'
-require './lib/pieces/knight'
-require './lib/pieces/queen'
-require './lib/pieces/king'
