@@ -5,7 +5,9 @@ module Chess
       @width = 8
       @number_of_spaces = @length * @width
 
-      @spaces =
+      @spaces = Array.new(@number_of_spaces, Space.new)
     end
+
+
   end
 end

@@ -18,8 +18,7 @@ describe Chess::Board do
 
     it "has an array full of Chess::Space objects" do
       all_are_spaces = board.instance_eval { @spaces }.all? { |space| space.is_a? Chess::Space } # Each element of the spaces array is a Space obj
-      expect(all_are_spaces).to eql True
+      expect(all_are_spaces).to eql true
     end
   end
-
 end
